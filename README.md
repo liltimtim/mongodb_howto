@@ -81,3 +81,56 @@ In order to complete this tutorial, we will be using the free version.  You can 
 
 ### Adding A Connection / Database
 #### Step 1
+Open robomongo.  You should be presented with this screen.
+![Robomongo ConnectionOverview](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/connection_overview.png?raw=true)
+
+If you are not presented with this screen, click on the `connections` icon
+
+![Connections Icon](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/new_connection_icon.png?raw=true)
+
+> this will open up the connection overview screen
+
+Next click the `Create` button at the top left corner of the window. 
+
+You should see this screen
+![New Connect Setup](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/connection_tab_settings.png?raw=true)
+
+> The primary tabs we will be discussing are `connection` and `Authentication`
+
+#### Step 2 - Entering Connection Information
+
+Under the `Connection` tab there are 4 primary things of note. 
+1. Type: You can select `Direct Connect` or `Replica Set`. 
+> this tutorial only covers `Direct Connect`
+2. Name: An arbitrary name you give the connection.  This is no way affects connecting to a database its just for your own convenience. 
+3. address: this is the address at which to connect.  
+> When entering an address **do not** include the URI portion of a mongodb address: `mongodb://`.  That **is not** an `address` that is a URI `scheme`.  Also, do no include the port number.  You must enter the port in the proper field. 
+> To learn more about what a URI is, visit [Wiki](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier)
+4. the port field.
+
+##### Local Host Setup
+For connecting to localhost, you can just leave all the default values that robomongo places into the fields and hit "Save".  This will save the connection in the list.  To connect to your saved localhost database:
+* Ensure you are running mongodb
+
+You should see this screen when you connect to your localhost box
+![Localhost connection overview](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/running_localhost_overview.png?raw=true)
+
+#### Step 2.1 Heroku and MLab Connection Setup
+For most projects, we will be using `heroku` and the `mlab` resource addon. 
+
+Go to Heroku's [website](https://heroku.com)
+
+In your own overview list of servers, ensure that you are on the correct team if you do not see a list / the server you are looking for. 
+
+![Server List](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/heroku_server_list.png?raw=true)
+
+Select the server you wish to view from this list. 
+
+> for this tutorial I'm going to select `caars-qa` server for no particular reason. 
+
+You should see a screen similar too this
+> Note that the tutorial was done in 2018, the interface may have changed since then. 
+
+![Heroku Server Overview](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/caars_heroku_overview.png?raw=true)
+
+
