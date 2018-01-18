@@ -181,4 +181,17 @@ mongodb://heroku_1df7hmsb:s9n0ub1qc6fb2833b7t7solevr@ds243657-a0.mlab.com:43657/
 
 Now go back to robomongo and enter this information we have extracted from Heroku in order to connect too the database and view its data.  
 
+Your Connection setting should look like this...
+
+![Connection Setting](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/caars_connection_setting.png?raw=true)
+
+Your Authentication tab should appear like this...
+
+![Connection Tab](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/caars_auth_settings.png?raw=true)
+
+> **Note** that usually `MLab` instances use the `username` as the `database` name.  This is **coincidental** and is not the **rule** its the **exception**.  You cannot rely on this always being true. 
+
+> Ensure that "Perform Authentication" checkbox is selected otherwise youw ill not be able to enter information
+
+> Ensure that the `Auth Mechanism` is set to `SCRAM-SHA-1` for authentication mech. 
 
