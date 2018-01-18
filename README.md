@@ -110,9 +110,11 @@ Under the `Connection` tab there are 4 primary things of note.
 
 ##### Local Host Setup
 For connecting to localhost, you can just leave all the default values that robomongo places into the fields and hit "Save".  This will save the connection in the list.  To connect to your saved localhost database:
+
 * Ensure you are running mongodb
 
 You should see this screen when you connect to your localhost box
+
 ![Localhost connection overview](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/running_localhost_overview.png?raw=true)
 
 #### Step 2.1 Heroku and MLab Connection Setup
@@ -132,5 +134,51 @@ You should see a screen similar too this
 > Note that the tutorial was done in 2018, the interface may have changed since then. 
 
 ![Heroku Server Overview](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/caars_heroku_overview.png?raw=true)
+
+Select the `Settings` tab
+
+Under the `Settings` tab you should see a screen similar to this
+
+![Heroku Settings Screeen](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/heroku_settings_tab.png?raw=true)
+
+Tap the "Reveal Configs" button
+
+![Reveal Configs](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/herokur_rev_btn.png?raw=true)
+
+You should now see all your configs
+
+![All Configs](https://github.com/liltimtim/mongodb_howto/blob/master/tutorial_resources/heroku_config_not_hidden.png?raw=true)
+
+> The config you are looking for is the `MONGODB_URI` setting.  
+
+Copy the `MONGODB_URI` configuration setting. You should have something similar to this URI:
+
+`mongodb://heroku_1df7hmsb:s9n0ub1qc6fb2833b7t7solevr@ds243657-a0.mlab.com:43657,ds243657-a1.mlab.com:43657/heroku_1df7hmsb?replicaSet=rs-ds243657`
+
+The formatting of a mongodb URI is 
+
+`[scheme]://[username]:[password]@[database_url]:[port]/[database_name],[replica_set_information]`
+
+We can use this information to extract out the sections we will need which are `username`, `passpword`, `database_url`, `port`, and `database_name`
+
+In our case the values are:
+
+[username] : heroku_1df7hmsb
+
+[password] : s9n0ub1qc6fb2833b7t7solevr
+
+[database_url] : ds243657-a0.mlab.com
+
+[database_name] : heroku_1df7hmsb
+
+[port] : 43657
+
+> Note that this is a `special case` because this database has a `replica set`.  This is like a mirror for your database.  anything you do with the primary database, it is also done on the replica set.  This is how mongodb ensures reliability for the database. The URI is still the same format however just with extra parameters.  Normally, a `sandbox` URI would not include a replica set and would look like this 
+
+```
+mongodb://heroku_1df7hmsb:s9n0ub1qc6fb2833b7t7solevr@ds243657-a0.mlab.com:43657/heroku_1df7hmsb
+```
+
+Now go back to robomongo and enter this information we have extracted from Heroku in order to connect too the database and view its data.  
 
 
