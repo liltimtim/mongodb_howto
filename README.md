@@ -194,4 +194,100 @@ Your Authentication tab should appear like this...
 > Ensure that "Perform Authentication" checkbox is selected otherwise youw ill not be able to enter information
 
 > Ensure that the `Auth Mechanism` is set to `SCRAM-SHA-1` for authentication mech. 
+------
 
+# MongoDB Toolsets
+
+## Introduction
+
+Tutorial teaches about the following tools offerred by MongoDB.  You can use either the **brew** version of mongo or downloading it from the official MongoDB website.  Both software accepts the same input parameters for this tutorial. 
+
+* mongodump
+* mongorestore
+
+> This tutorial was designed and uses V 3.6 of MongoDB to include its toolsets.  If any command fails or differs from this tutorial its probably because you have a newer version.  Always look at the documentation on the official website which, will always have the latest information. 
+
+**Goals**
+1. Demonstrate how to backup and restore a database. 
+2. Demonstrate how to use these tools to transition a sandbox MLab instance into production instance by first dumping the sandbox database and restoring it into an MLab production instance. 
+
+Directions covered:
+
+1. MLab ->mongodump-> Localhost (snapshot)
+2. Localhost (snapshot) ->mongorestore-> MLab
+
+### mongodump
+
+Used to completely output all the collections in a database.  This tools exports .bson and .json files that represent a mongo database.  Typically, it exports into a folder of your choosing. You may also use queries to dump specific portions of data from the database however this is a more advanced topic which wont be covered. 
+
+> More information can be found at MongoDB [here v3.6](https://docs.mongodb.com/manual/reference/program/mongodump/)
+
+### mongorestore
+
+Used to restore a single database from the mongodump snapshot.  This tool allows to globally restore a database or select an individual collection to restore. You can also run queries to restore only a particular dataset but this is advanced usage and will not be covered in this tutorial. 
+
+> More information can be found at MongoDB [here v3.6](https://docs.mongodb.com/manual/reference/program/mongorestore/)
+
+## Using mongodump
+
+### Step 1 - Ensure mongorestore is on your machine
+
+in the terminal, type the following
+
+```
+mongorestore --version
+```
+
+
+You should see similar output to the following below
+> If you do not see this output, it means that you do not have mongodb installed using brew.  This is fine, you can run the tool directly from the **bin** folder if you downloaded mongodb from its official repo.  
+```
+Timothys-iMac:mongodb_howto timothydillman$ mongorestore --version
+mongorestore version: r3.6.2
+git version: 2b10d8492e1185039be4d5f2242a5b11ea102303
+Go version: go1.9.2
+   os: darwin
+   arch: amd64
+   compiler: gc
+OpenSSL version: OpenSSL 1.0.2n  7 Dec 2017
+```
+
+Let's get started by dumping a database from an MLab sandbox instance.  
+
+We will be using d2113736.mlab.com instance for this tutorial (which may or may not exist anymore)
+
+
+In your terminal type this command...
+```
+mongodump -h ds113736.mlab.com:13736 -u heroku_d4dg1ksj -p sjd25k9nnv5p8p2jm0m12ft2jv -d heroku_d4dg1ksj -o ~/Projects/db_dumps
+```
+
+**-h [host_name]**: This command tells mongodump 'where' the database is and what port to use in order to connect. 
+
+**-u [username]**: This tells mongodump the username to use to connect to the database (very similar to setting up a RoboMongo connection).
+
+**-p [password]**: This tells mongodump what the password is for the user you defined. 
+
+**-d [database_name]**: This tells mongodump which database you want to dump
+
+**-o [dump_directory]**: This tells mongodump 'where' on your machine to dump this database. 
+> -o is a destructive command which --**will not**-- prompt you before overriding anything at the location you specify.  Tread with caution!
+
+Inspecting the output contents will give you something similar to the following
+
+```
+Timothys-iMac:heroku_d4dg1ksj timothydillman$ ls -all
+total 19488
+drwxr-xr-x  34 timothydillman  staff     1088 Jan 22 06:25 .
+drwxr-xr-x   3 timothydillman  staff       96 Jan 22 06:25 ..
+-rw-r--r--   1 timothydillman  staff     2296 Jan 22 06:25 ChargeRequest.bson
+...
+Content Abbreviated
+...
+-rw-r--r--   1 timothydillman  staff        0 Jan 22 06:25 _Role.bson
+-rw-r--r--   1 timothydillman  staff      209 Jan 22 06:25 _Role.metadata.json
+-rw-r--r--   1 timothydillman  staff     3819 Jan 22 06:25 _SCHEMA.bson
+-rw-r--r--   1 timothydillman  staff       95 Jan 22 06:25 _SCHEMA.metadata.json
+-rw-r--r--   1 timothydillman  staff    16131 Jan 22 06:25 _Session.bson
+-rw-r--r--   1 timothydillman  staff       96 Jan 22 06:25 _Session.metadata.json
+```
