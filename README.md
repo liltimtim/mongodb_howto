@@ -205,6 +205,10 @@ Tutorial teaches about the following tools offerred by MongoDB.  You can use eit
 * mongodump
 * mongorestore
 
+> **Use your brain!!!!**
+
+> These tools will not hold your hand at all.  There isn't a "confirm" button.  All actions you perform with these tools are final (unless you have a backup).  You can silently destroy your database using a simple parameter so please, read and type carefully **BEFORE** pressing your return key. 
+
 > This tutorial was designed and uses V 3.6 of MongoDB to include its toolsets.  If any command fails or differs from this tutorial its probably because you have a newer version.  Always look at the documentation on the official website which, will always have the latest information. 
 
 **Goals**
@@ -291,3 +295,29 @@ Content Abbreviated
 -rw-r--r--   1 timothydillman  staff    16131 Jan 22 06:25 _Session.bson
 -rw-r--r--   1 timothydillman  staff       96 Jan 22 06:25 _Session.metadata.json
 ```
+
+## Using Mongorestore
+
+Now lets use that same database as above to "restore" it back onto itself. This process can be applied to any database where the direction is as follows:
+
+1. localhost => MLab
+2. MLab Sandbox => MLab Production
+
+In general though, you will first store the database onto your computer as a "temporary" medium between the sandbox and production.  You shouldn't have to worry about the sandbox database being too large to download or fit on your computer because sandbox db instances are fairly small. 
+
+> You should never download / mongodump a production database directly.  This is a taxing command and if your database is already being taxed heavily by a production app then the API/Front end will take a performance hit during the dump.  
+
+> Further, a production database could be several Terabytes in size.  If this is the case, mongo has tools to clone one database onto another.  This is not covered in this tutorial but check out the official documentation on how to accomplish this task. 
+
+> using mongodump is a **snapshot** in time.  If you have writes to your database during your dump, the tool will not capture those and it will not be included if you restore your data.  Its advisable to shutdown any servers that use the database to store its data during a dump process to alleviate any dataloss.  If its a production database being cloned, its still advisable to use this same process however if this isn't possible, you can duplicate the replica set which is just a mirror of the database without taking a performance hit. Always consult the documentation first before doing such actions.  
+
+The commands for restoring a database are very similar too mongodump
+```
+mongorestore -h ds113736.mlab.com:13736 -u heroku_d4dg1ksj -p sjd25k9nnv5p8p2jm0m12ft2jv -d [destination_database_name] ~/Projects/db_dumps/heroku_d4dg1ksj
+```
+
+Note that the **last** parameter of a mongorestore **MUST** be the input directory so that mongorestore reads all the .BSON and .JSON files and restores all information contained in the directory. Also note that the last parameter does not take an input flag like mongodump's "-o" parameter. 
+
+**-d [database_name]**: Note this parameter does not have to match your old database name, it will probably never match in terms of names.  This is okay and to be expected. 
+
+> MLab automatically names databases for you.  If you do not pay attention to this you will create another database collection on MLab and it will have the name you passed into the "-d" parameter.  This will probably result in consequences you didn't intend.  So **pay attention** to what you type with these tools.  
